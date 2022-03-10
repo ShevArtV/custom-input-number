@@ -6,14 +6,14 @@ export default class CustomInputNumber {
             return false;
         }
 
+        this.element = element;
+
         this.defaults = {
-            value: parseFloat(element.value) || 0,
             min: parseFloat(element.getAttribute('min')) || false,
             max: parseFloat(element.getAttribute('max')) || false,
             step: parseFloat(element.getAttribute('step')) || 1,
             placeholder: element.getAttribute('placeholder') || '',
-            negative: element.dataset.negative,
-            element: element
+            negative: element.dataset.negative
         }
 
         this.config = Object.assign({}, this.defaults, config);
@@ -45,7 +45,7 @@ export default class CustomInputNumber {
                     tagName: 'input',
                     classNames: ['input-number-emulator'],
                     type: 'text',
-                    value: this.config.value,
+                    value: parseFloat(this.element.value) || 0,
                     placeholder: this.config.placeholder
                 },
                 minus: {
@@ -56,14 +56,14 @@ export default class CustomInputNumber {
             };
 
 
-        this.config.element.classList.add('input-visually-hidden');
+        this.element.classList.add('input-visually-hidden');
         for (let k in rowmarkup) {
             markup[k] = this.createElement(rowmarkup[k]);
         }
         markup.wrapper.appendChild(markup.minus);
         markup.wrapper.appendChild(markup.field);
         markup.wrapper.appendChild(markup.plus);
-        this.config.element.after(markup.wrapper);
+        this.element.after(markup.wrapper);
         return markup;
     }
 
@@ -92,11 +92,11 @@ export default class CustomInputNumber {
     numberUp() {
         let config = this.config,
             field = this.markup.field,
-            value = parseFloat(config.element.value);
+            value = parseFloat(this.element.value);
 
         if (config.max >= value + config.step || !config.max) {
-            config.element.value = value + config.step;
-            field.value = config.element.value;
+            this.element.value = value + config.step;
+            field.value = this.element.value;
 
             this.triggerEvent(config);
         }
@@ -105,16 +105,16 @@ export default class CustomInputNumber {
     numberDown() {
         let config = this.config,
             field = this.markup.field,
-            value = parseFloat(config.element.value),
+            value = parseFloat(this.element.value),
             negative = config.min < 0 ? true : config.negative;
 
         if (config.min <= value - config.step || !config.min) {
             if (negative || value - config.step >= 0) {
-                config.element.value = value - config.step;
+                this.element.value = value - config.step;
             } else if (value - config.step < 0) {
-                config.element.value = config.min ? config.min : 0;
+                this.element.value = config.min ? config.min : 0;
             }
-            field.value = config.element.value;
+            field.value = this.element.value;
 
             this.triggerEvent(config);
         }
@@ -124,7 +124,7 @@ export default class CustomInputNumber {
         let config = this.config,
             field = this.markup.field,
             inputValue = parseFloat(field.value) || config.min,
-            oldValue = config.element.value;
+            oldValue = this.element.value;
 
         if (inputValue % config.step != 0) {
             inputValue = Math.round(inputValue / config.step) * config.step;
@@ -136,7 +136,7 @@ export default class CustomInputNumber {
             inputValue = config.max;
         }
         field.value = inputValue;
-        config.element.value = field.value;
+        this.element.value = field.value;
 
         if (oldValue != inputValue) {
             this.triggerEvent(config);
