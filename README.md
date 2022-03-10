@@ -9,14 +9,14 @@
 min - минимальное значение;
 max - максимальное значение;
 placeholder - заполнитель при отсутствии значения;
-step - шаг измениния, может быть дробным;
+step - шаг изменения, может быть дробным;
 negative - разрешает отрицательные значения, по умолчанию запрещены.
 Передать значения конфигурации можно через атрибуты, при этом negative передается через data-negative, 
-если отрицательные значения не нужны не указвайте значение вообще или удалите этот атрибут. 
+если отрицательные значения не нужны - не указывайте значение вообще или удалите этот атрибут. 
 Также есть возможность передать конфигурацию вторым параметром при создании экземпляра класса, при этом тип параметра объект.
 
 The simple Custom Input Number class is designed to customize input[type="number"].
-The original input is hidden by adding the .input-visuallyhidden class. 
+The original input is hidden by adding the .input-visually-hidden class. 
 A block with the .input-number-wrap class is added to the markup, 
 inside of which there are two buttons with a common .input-number-btn class, the increase button has the .input-number-plus class,
 and the decrease button has the .input-number-minus class. 
