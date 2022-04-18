@@ -144,9 +144,9 @@ export default class CustomInputNumber {
     }
 
     triggerEvent(config) {
-        config.element.dispatchEvent(config.event);
+        this.element.dispatchEvent(config.event);
         if (window.jQuery !== 'undefined') {
-            $(config.element).trigger('change');
+            $(this.element).trigger('change');
         }
     }
 }
